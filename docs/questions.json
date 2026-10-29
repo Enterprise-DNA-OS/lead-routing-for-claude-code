@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Which unassigned enquiries have already missed our handoff deadline?",
+    "command": "npm run routing -- overdue"
+  },
+  {
+    "question": "Which countries have no matching route in our current enquiry list?",
+    "command": "npm run routing -- coverage"
+  },
+  {
+    "question": "Which matching routes are blocked by representative capacity?",
+    "command": "npm run routing -- coverage"
+  },
+  {
+    "question": "Which unavailable representatives still own open enquiries?",
+    "command": "npm run routing -- compliance"
+  },
+  {
+    "question": "Who has the most open enquiries and overdue handoffs together?",
+    "command": "npm run routing -- workload"
+  },
+  {
+    "question": "Which enquiries are still awaiting a named owner?",
+    "command": "npm run routing -- unassigned"
+  },
+  {
+    "question": "Which enquiries need a retention review under our chosen policy?",
+    "command": "npm run routing -- retention"
+  },
+  {
+    "question": "Who recorded each assignment and what reason did they give?",
+    "command": "npm run routing -- history"
+  },
+  {
+    "question": "Which imported routing version came from this source digest?",
+    "command": "npm run routing -- imports"
+  },
+  {
+    "question": "What changed in availability, ownership or handoff acceptance this week?",
+    "command": "npm run routing -- activity"
+  }
+]

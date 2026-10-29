@@ -1,0 +1,3 @@
+row_name,Country,record_assignment_type,record_assignment
+ANZ queue,"NZ,AU",distribution,ANZ inbound
+Singapore,SG,user,mere@example.test

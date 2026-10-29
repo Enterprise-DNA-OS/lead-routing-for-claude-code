@@ -1,0 +1,12 @@
+{
+  "assignment": "record_assignment",
+  "conditions": [
+    {
+      "column": "Country",
+      "field": "country",
+      "type": "multiple",
+      "op": "in",
+      "empty_matches": false
+    }
+  ]
+}

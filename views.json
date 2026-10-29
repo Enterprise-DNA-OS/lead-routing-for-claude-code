@@ -1,13 +1,29 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Lead Routing for Claude Code: what needs attention, rendered by npm run view",
+    "title": "This week in inbound sales",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Waiting for an owner or acceptance",
+        "sql": "select * from routing_attention order by due_at"
+      },
+      {
+        "title": "Workload",
+        "sql": "select name,available,capacity,open_leads,overdue_handoffs from rep_workload order by name"
+      }
+    ]
+  },
+  {
+    "name": "controls",
+    "title": "Routing controls",
+    "sections": [
+      {
+        "title": "Record checks",
+        "sql": "select * from routing_compliance order by code,control"
+      },
+      {
+        "title": "Recent decisions",
+        "sql": "select kind,actor,details,created_at from activity order by created_at desc limit 20"
       }
     ]
   }

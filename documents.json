@@ -1,11 +1,36 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "handoff",
+    "title": "Enquiry handoff",
+    "for_each": "select id,code from leads where status in ('assigned','accepted') order by code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Enquiry and responsibility",
+        "sql": "select code,name,status,owner,received_at,due_at,accepted_at,purpose from lead_register where id=$1",
+        "layout": "record"
+      },
+      {
+        "title": "Recorded notes",
+        "sql": "select actor,body,created_at from notes where lead_id=$1 order by created_at"
+      }
+    ]
+  },
+  {
+    "name": "routing-decision",
+    "title": "Assignment decision record",
+    "for_each": "select id,code from leads where owner_id is not null order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Decision",
+        "sql": "select l.code,r.name as owner,ru.name as rule,a.actor,a.reason,a.created_at from assignments a join leads l on l.id=a.lead_id join reps r on r.id=a.rep_id join rules ru on ru.id=a.rule_id where l.id=$1",
+        "layout": "record"
+      },
+      {
+        "title": "Events",
+        "sql": "select kind,actor,details,created_at from activity where record_id=$1 order by created_at"
+      }
     ]
   }
 ]

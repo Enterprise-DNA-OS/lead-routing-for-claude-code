@@ -1,115 +1,124 @@
-<h1 align="center">Lead Routing for Claude Code</h1>
+# Lead Routing for Claude Code
 
-<p align="center">
-  <strong>The open-source lead routing desk that is just a database and Claude Code.</strong>
-</p>
+**The open-source lead routing desk that is just a database and Claude Code.** Built by Enterprise DNA. Works with Claude Code, Codex, OpenCode or Cursor.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free, MIT. Follow the quick start below. | Your fields, territories and Chili Piper routing values brought across. [Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=chili-piper). | Installed and operated through Omni by Enterprise DNA. One setup fee, then a monthly retainer. [Talk to Sam](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=chili-piper). |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your Chili Piper data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=chili-piper">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/chili-piper?utm_source=github&utm_medium=readme&utm_campaign=chili-piper">How it works</a></td>
-  </tr>
-</table>
+Chili Piper lists Routing & Scheduling from $1,250 per month, billed annually, or $15,000 a year. [Vendor pricing](https://www.chilipiper.com/pricing), checked 29 October 2026. This is a public starting price, not a customer invoice or an equivalent-service savings claim.
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-chili-piper">Instead of Chili Piper</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Lead Routing for Claude Code does the job you pay Chili Piper for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Chili Piper dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Chili Piper per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=chili-piper).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+Own the daily assignment record: who should receive an enquiry, why they matched, whether they have capacity, and whether the handoff was accepted on time. The free base operates on local records. It does not book calendars, update Salesforce, monitor forms or send notifications. Enterprise DNA scopes and tests those connections for a managed version.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or later.
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/lead-routing-for-claude-code.git
 cd lead-routing-for-claude-code
 npm install
+npm test
 npm run demo
+npm run view
+npm run docs
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+Open the folder in your coding agent and ask for /weekly-review. Seed only a demo database. The people and businesses are fictional. Demo records include stale enquiries, an overdue handoff, an unavailable owner and a country without coverage.
 
-### Use it with your own Postgres or Supabase
+Embedded PGlite persists under .data/db by default. DATA_DIR selects another location. DATABASE_URL selects your Postgres database. Use an empty database and npm run migrate for real records. Tests always use disposable data and override DATABASE_URL. Optional TEST_DATABASE_URL must point to an empty disposable Postgres database. Never commit credentials or customer exports.
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+## Weekly rituals
 
-## The commands
+/attention, /coverage, /workload, /overdue and /weekly-review answer the operating questions. Preview one assignment, route it locally, then record the actual owner's acceptance. The CLI prevents routing the same enquiry twice and never exceeds configured active capacity. An unavailable or full destination is held for review.
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+```bash
+npm run routing -- preview --ref=ENQ-101
+npm run routing -- route --ref=ENQ-101 --reason="Demo territory review complete" --actor="Demo operator"
+npm run routing -- accept --ref=ENQ-101 --rep="Mere Rangi" --evidence="Fictional demonstration acceptance" --actor="Demo operator"
+```
 
-| Command | What it does |
+The demo follows the oldest assignment among available representatives. Read the preview for the actual selected person before recording acceptance in real use. Names in --actor are recorded declarations, not authentication.
+
+## Commands
+
+32 CLI operations and 34 agent command recipes. All operations support --json. Names match case-insensitively; partial identifiers work; ambiguous references list candidates and exit 1. [Full CLI](docs/cli.md).
+
+- /reps: Read representatives and their workload.
+- /teams: Read distribution membership counts.
+- /rules: Read ordered routing conditions and destinations.
+- /leads: Read the enquiry register.
+- /attention: Find enquiries waiting for assignment or acceptance.
+- /unassigned: Work through the unassigned enquiry queue.
+- /overdue: Find breached handoff deadlines.
+- /workload: Balance open work against capacity.
+- /history: Read assignment reasons and recorded actors.
+- /imports: Reconcile imported versions and row counts.
+- /compliance: Check retention, purpose and routing exceptions.
+- /retention: Review old enquiry records.
+- /activity: Read the recorded change history.
+- /coverage: Find missing routes and blocked destinations.
+- /show: Read one enquiry with notes and assignment history.
+- /help: List all CLI operations.
+- /weekly-review: Review the queue, workload and record controls.
+- /preview: Explain the proposed assignment without changing it.
+- /add-rep: Register a representative and capacity.
+- /add-team: Create a named distribution.
+- /join-team: Add a representative to a distribution.
+- /set-availability: Record whether a representative is available for new assignments.
+- /add: Record a supplied enquiry and its purpose.
+- /route: Assign one enquiry using current rules and capacity.
+- /accept: Record the assigned representative accepting the handoff.
+- /close: Close accepted work with its outcome.
+- /log: Add a supplied factual note.
+- /import: Import a native Chili Piper assignment export as an inactive version.
+- /activate: Activate a reviewed routing version.
+- /export: Write a complete private record backup.
+- /draft-handoff: Draft the enquiry handoff document without sending.
+- /draft-review: Draft the weekly routing review without sending.
+- /customise: add fields or change a documented rule with a migration.
+- /new-view: create a read-only report.
+
+## Ten questions your own records answer
+
+These combine your ownership, capacity and retention policies. They are executable questions, not an unsupported claim that a vendor can never answer them.
+
+| Question | Read command |
 |---|---|
-| `/...` | ... |
+| Which unassigned enquiries have already missed our handoff deadline? | overdue |
+| Which countries have no matching route in our current enquiry list? | coverage |
+| Which matching routes are blocked by representative capacity? | coverage |
+| Which unavailable representatives still own open enquiries? | compliance |
+| Who has the most open enquiries and overdue handoffs together? | workload |
+| Which enquiries are still awaiting a named owner? | unassigned |
+| Which enquiries need a retention review under our chosen policy? | retention |
+| Who recorded each assignment and what reason did they give? | history |
+| Which imported routing version came from this source digest? | imports |
+| What changed in availability, ownership or handoff acceptance this week? | activity |
 
-## Instead of Chili Piper
+## Your first hour: ten things to ask for
 
-<!-- TODO(author): how to bring data across from Chili Piper; link docs/replace-chili-piper.md -->
+1. Show enquiries awaiting an owner.
+2. Find the oldest overdue handoff.
+3. Preview the owner for an enquiry.
+4. Explain a blocked routing decision.
+5. Show everyone's remaining capacity.
+6. Record a supplied acceptance.
+7. Draft an internal handoff without sending.
+8. Trial my native routing export.
+9. Add a product field and a matching rule.
+10. Build a weekly territory coverage report.
 
-## Architecture
+## Switching
 
-```
-lead-routing-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
+[Bring your Chili Piper assignment export across](docs/replace-chili-piper.md) in one command with explicit mapping. CSV values are preserved and imported as an inactive version. A trial import writes nothing; malformed or unsupported input stops with a reason. Lead history, meeting records, proprietary distribution rules and live service connections require separate work. Test those before cancelling the incumbent.
 
-## Built for coding agents
+## Documents and controls
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+Set business name, logo and colours in brand.json. npm run docs renders enquiry handoffs and assignment decision records. npm run view renders the weekly queue and control findings. Draft commands write private HTML under drafts/. Nothing sends.
 
-## Contributing
+[Compliance](docs/compliance.md) cites NZ privacy principles and Australian privacy guidance, separates legal duties from our operating checks and explains the limits. Records have purpose and review dates, and old records are flagged for a human decision. No legal certification, authenticated approval or automatic deletion is claimed.
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+Ten domain tables and four reporting views share one CLI. Versioned migrations work with Postgres syntax and embedded PGlite. The trusted operator role owns the database, and public access is denied. A shared deployment requires authenticated access, backups and operational controls. [Why no front end](docs/why-no-front-end.md).
 
-## Want it installed and run for you?
-
-Enterprise DNA installs Lead Routing for Claude Code for your business, migrates your Chili Piper data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
-
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=chili-piper)
-- Read more: [enterprisedna.co/omni/instead-of/chili-piper](https://enterprisedna.co/omni/instead-of/chili-piper?utm_source=github&utm_medium=readme&utm_campaign=chili-piper)
-
-## License
-
-MIT. Copyright (c) 2026 Enterprise DNA.
+MIT. Copyright 2026 Enterprise DNA. Independent project, not affiliated with Chili Piper.

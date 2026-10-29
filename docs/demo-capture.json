@@ -1,0 +1,24 @@
+{
+  "captured_at": "2026-10-29T02:24:56.754Z",
+  "fictional": true,
+  "screens": [
+    {
+      "title": "Queue review",
+      "ask": "Which enquiries need an owner or an accepted handoff?",
+      "command": "npm run routing -- attention",
+      "output": "  code     name                    status    owner       due_at                    reason              \n  -------  ----------------------  --------  ----------  ------------------------  --------------------\n  ENQ-105  Old enquiry for review  assigned  Alex Reed   2026-05-03T02:21:04.464Z  Handoff not accepted\n  ENQ-102  Harbour Systems         assigned  Mere Rangi  2026-10-26T02:21:04.464Z  Handoff not accepted\n  ENQ-101  Kauri Analytics         new                   2026-10-27T02:21:04.464Z  No assignment       \n  ENQ-104  Pacific Instruments     new                   2026-10-30T02:21:04.464Z  No assignment"
+    },
+    {
+      "title": "Territory coverage",
+      "ask": "Which new enquiries can we route, and which have no matching territory?",
+      "command": "npm run routing -- coverage",
+      "output": "  code     result    rule         owner     \n  -------  --------  -----------  ----------\n  ENQ-101  ready     ANZ inbound  Mere Rangi\n  ENQ-104  no-match"
+    },
+    {
+      "title": "Representative workload",
+      "ask": "Who has capacity, and who has overdue handoffs?",
+      "command": "npm run routing -- workload",
+      "output": "  name        available  capacity  open_leads  overdue_handoffs  last_assigned           \n  ----------  ---------  --------  ----------  ----------------  ------------------------\n  Alex Reed   false      2         1           1                 2026-05-02T02:21:04.464Z\n  Lin Chen    true       2         1           0                 2026-10-27T02:21:04.464Z\n  Mere Rangi  true       3         1           1                 2026-10-25T02:21:04.464Z"
+    }
+  ]
+}
